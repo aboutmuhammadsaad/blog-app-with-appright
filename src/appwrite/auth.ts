@@ -15,7 +15,7 @@ export class AuthService {
         
     }
 
-    async createAccount({email, password, name}: 
+    async createAccount({name, email, password}: 
         {email: string, password: string, name: string}) 
     {
         try {

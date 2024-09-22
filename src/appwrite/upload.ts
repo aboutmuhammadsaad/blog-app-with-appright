@@ -1,6 +1,6 @@
 
 import conf from '@/lib/config';
-import { Client,Databases, ID, Storage, Query } from "appwrite";
+import { Client ,ID, Storage } from "appwrite";
 
 class UploadService {
     client = new Client();
@@ -47,7 +47,6 @@ class UploadService {
             fileID
         )
     }
-
 }
 
 const uploadservice = new UploadService
