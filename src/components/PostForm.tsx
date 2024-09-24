@@ -1,13 +1,23 @@
-import React, {useState, useCallback, use} from 'react'
+'use client'
+import React, {useState, useCallback} from 'react'
 import { useForm } from 'react-hook-form'
 import {Button ,Input, Logo,RTE, Select } from "@/components/index"
 import appriteService from "@/appwrite/configu"
 import appriteUpload from "@/appwrite/upload"
 import { useSelector } from 'react-redux'
-import { redirect } from 'next/navigation'  
+import { redirect } from 'next/navigation'
+import Image from 'next/image'  
+type FormValues = {
+    title: string;
+    slug: string;
+    content: string;
+    status: string;
+    featuredimage: FileList;
+};
 
 function PostForm({post}:any) {
-    const {register, handleSubmit, watch, setValue, control, getValues } =useForm({
+
+    const {register, handleSubmit, watch, setValue, control, getValues } =useForm<FormValues>({
         defaultValues: {
             title: post?.title || "",
             slug: post?.$id || "",
@@ -15,6 +25,7 @@ function PostForm({post}:any) {
             status: post?.status || "active",
         },
     })
+    const url =appriteUpload.getFilePreview(post.featuredImage)
     const userData=useSelector((state:any)=>state.auth.userData)
     const submit= async (data:any)=>{
         if (post) {
@@ -115,15 +126,16 @@ function PostForm({post}:any) {
                     type="file"
                     className="mb-4"
                     accept="image/png, image/jpg, image/jpeg, image/gif"
-                    {...register("image", { required: !post })}
+                    {...register("featuredimage", { required: !post })}
                 />
                 {post && (
                     <div className="w-full mb-4">
-                        <img
-                            src={appriteUpload.getFilePreview(post.featuredImage)}
+                        <Image
+                            src={url.toString()}
                             alt={post.title}
                             className="rounded-lg"
                         />
+                             
                     </div>
                 )}
                 <Select
@@ -132,7 +144,7 @@ function PostForm({post}:any) {
                     className="mb-4"         
                     {...register("status", { required: true })}
                 />
-                <Button text={post ? "Update" : "Submit"} type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full"
+                <Button text={post ? "Update" : "Submit"} type="submit" className="w-full" bgColor={post ? "bg-green-500" : undefined} 
                 />
             </div>
         </form>

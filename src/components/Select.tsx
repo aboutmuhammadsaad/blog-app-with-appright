@@ -1,4 +1,4 @@
-
+'use client'
 import React , {useId} from 'react'
 interface obj{
     options:any,

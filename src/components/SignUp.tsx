@@ -1,7 +1,8 @@
+'use client'
 import React,{useState} from 'react'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import {login as authlogin, login} from "@/store/authslice"
+import {login as authlogin} from "@/store/authslice"
 import {Button ,Input, Logo } from "@/components/index"
 import { useDispatch } from 'react-redux'
 import authService from '@/appwrite/auth'
@@ -17,7 +18,7 @@ function SignUp() {
             const userData=await authService.createAccount(data)
             if(userData){
                 const userData=await authService.getCurrentUser()
-                if (userData) dispatch(login(userData))
+                if (userData) dispatch(authlogin(userData))
                 redirect("/")    
             }
         } catch (error:any) {

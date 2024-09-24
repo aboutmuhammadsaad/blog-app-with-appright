@@ -1,8 +1,14 @@
 import React, { useId } from "react"
+type InputProps = {
+  label: string;
+  type?: string;
+  placeholder?: string;
+  className?: string;
+} & React.InputHTMLAttributes<HTMLInputElement>;
 
 const Input =React.forwardRef(function Input({
     label,type="text", placeholder ,className="",...props
-}:{label:string, type?:string,placeholder:string, className?:string, },ref:any) {
+}:InputProps,ref:any) {
     const id=useId();
   return (
     <div className="w-full">

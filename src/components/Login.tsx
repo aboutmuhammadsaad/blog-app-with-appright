@@ -1,3 +1,4 @@
+'use client'
 import React,{useState} from 'react'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
