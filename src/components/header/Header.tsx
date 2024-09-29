@@ -3,12 +3,11 @@ import Container from '@/components/Container'
 import Logo from '@/components/Logo'
 import LogoutBtn from './LogoutBtn'
 import Link from 'next/link'
-import authslice from '@/store/authslice'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '@/lib/hooks'
 import { redirect,useRouter } from 'next/navigation'
 
 function Header() {
-  const authStatus = useSelector((state:any) => state.status);
+  const authStatus = useAppSelector((state:any) => state.status);
   const router = useRouter();
   const navItems = [
     {

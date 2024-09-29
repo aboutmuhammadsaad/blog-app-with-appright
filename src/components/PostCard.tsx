@@ -6,11 +6,12 @@ import Image from 'next/image'
 function PostCard({slug, title, featuredImage}:
     {slug:string, title:string, featuredImage:string}) {
     
+      const imageurl=UploadService.getFilePreview(featuredImage)
   return (
     <Link href={`/post/${slug}`}>
         <div className='w-full bg-gray-100 rounded-xl p-4'>
             <div className='w-full justify-center mb-4'>
-                <Image src={UploadService.getFilePreview(featuredImage)} 
+                <Image src={imageurl.toString()} 
                 alt={title}
                 className='rounded-xl' 
                 />

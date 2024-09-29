@@ -1,12 +1,12 @@
 'use client'
 import React,{useEffect, useState} from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '@/lib/hooks'
 import { redirect } from 'next/navigation'
 
 function AuthLayout({children, authentication=true}:
     {children:any, authentication:boolean}) {
     const [loader,setLoader]=useState(true)
-    const authStatus=useSelector( (state:any) => state.auth.status)
+    const authStatus=useAppSelector( (state:any) => state.auth.status)
 
     useEffect(() => {
         if (authentication && authStatus !== authentication){

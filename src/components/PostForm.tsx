@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import {Button ,Input, Logo,RTE, Select } from "@/components/index"
 import appriteService from "@/appwrite/configu"
 import appriteUpload from "@/appwrite/upload"
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '@/lib/hooks'
 import { redirect } from 'next/navigation'
 import Image from 'next/image'  
 type FormValues = {
@@ -26,7 +26,7 @@ function PostForm({post}:any) {
         },
     })
     const url =appriteUpload.getFilePreview(post.featuredImage)
-    const userData=useSelector((state:any)=>state.auth.userData)
+    const userData=useAppSelector((state:any)=>state.auth.userData)
     const submit= async (data:any)=>{
         if (post) {
             const file = data.image[0] ? await appriteUpload.uploadFile(data.image[0]) : null;

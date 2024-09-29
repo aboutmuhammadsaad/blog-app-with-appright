@@ -1,27 +1,33 @@
 'use client'
 import Main from "@/components/Main";
-import { Provider } from "react-redux";
-import store from "@/store/store";
-import React, {useEffect, useState} from 'react'
-import appriteService from '@/appwrite/configu'
+import authService from "@/appwrite/auth";
+import React, {useEffect} from 'react'
 import { useRouter } from 'next/navigation'
-import { Container, PostCard } from '@/components'
+import { useAppSelector } from "@/lib/hooks";
 
 export default function Home() {
-  const [posts, setPosts]= useState([])
-  useEffect(()=>{
-    appriteService.getAllPosts([]).then((posts)=>{
-      if (posts){
-          setPosts(posts.documents)
-      }
-  })  
-  },[])    
+    const router = useRouter();
+    const activeuser=useAppSelector((state:any) => state.status === 'true');   
+    useEffect(() => {
+        if (!activeuser){
+            router.push('/login');
+        }
+        // const checkSession = async () => {
+        //     try {
+        //         const userData = await authService.getCurrentUser();
+        //         if (!userData) {
+        //             router.push('/login');
+        //         }
+        //     } catch (err) {
+        //         console.log('Active session found');
+        //     }
+        // };
+        // checkSession();
+    }, [router]);    
   
-  return (
-    <Provider store={store}>    
-    <div className="w-full min-h-screen font-[family-name:var(--font-geist-sans)]">
-      <Main />
+  return (    
+    <div className="w-full min-h-screen font-[family-name:var(--font-geist-sans)]">           
+        <Main />
     </div>
-    </Provider>
   )
 }

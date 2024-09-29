@@ -4,9 +4,9 @@ import appriteService from '@/appwrite/configu'
 import { Container, PostCard } from '@/components'
 
 function page() {
-    const [posts, setPosts]= useState([])
+    const [posts, setPosts]= useState<Document[]>([])
     useEffect(()=>{
-      appriteService.getAllPosts([]).then((posts)=>{
+      appriteService.getAllPosts().then((posts)=>{
         if (posts){
             setPosts(posts.documents)
         }
@@ -17,8 +17,8 @@ function page() {
       <Container>
         <div className='flex flex-wrap'>
             {posts.map((post)=>(
-                <div key={post.$id} className=' p-2 w-1/4 '>
-                    <PostCard post={post} />        
+                <div key={post.userid} className=' p-2 w-1/4 '>
+                    <PostCard title={post.title} slug={post.slug}    />        
                 </div>
             ))
             }

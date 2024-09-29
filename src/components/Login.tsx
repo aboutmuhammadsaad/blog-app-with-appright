@@ -1,17 +1,34 @@
 'use client'
-import React,{useState} from 'react'
-import { redirect } from 'next/navigation'
+import React,{useState, useEffect} from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {login as authlogin} from "@/store/authslice"
-import { useDispatch } from 'react-redux'
+import { useAppDispatch } from '@/lib/hooks'
 import authService from '@/appwrite/auth'
 import {useForm} from "react-hook-form"
 import {Button ,Input, Logo } from "@/components/index"
 
 function Login() {
-    const dispatch=useDispatch();
+    const dispatch=useAppDispatch();
     const {register, handleSubmit}=useForm();
-    const [error,setError]=useState('')
+    const [error,setError]=useState('');
+    const router =useRouter();
+
+    useEffect(() => {
+        const checkSession = async () => {
+          try {
+            const userData = await authService.getCurrentUser();
+            if (userData) {
+              router.push('/');
+            }
+          } catch (err) {
+            console.log('No active session found');
+          }
+        };
+    
+        checkSession();
+    }, [router]);
+
     const login = async(data:any)=>{
        setError('')
        try {
@@ -19,11 +36,11 @@ function Login() {
         if (session){
             const userData = await authService.getCurrentUser()
             if(userData) dispatch(authlogin(userData));
-            redirect("/")
+            router.push("/")
         }
         
-       } catch (error:any) {
-            setError(error.message)
+       } catch (err:any) {
+            setError(err.message)
        } 
     }
   return (

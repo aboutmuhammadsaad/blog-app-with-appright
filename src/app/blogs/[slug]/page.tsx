@@ -1,32 +1,33 @@
 'use client'
+import Link from 'next/link'
 import React,{useEffect, useState} from 'react'
 import appwriteService from '@/appwrite/configu'
-import { Button,Container, PostCard } from '@/components'
+import { Button , Container, PostCard } from '@/components'
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
+import Image from 'next/image'
 
 export default function Page({ params }: { params: { slug: string } }) {
     const [post, setPost] = useState(null);
+    const userData =useSelector((state:any)=> state.auth.userData)
+    const isAuthor = post && userData ? post.userid === userData.$id :false
+
     return post ? (
         <div className="py-8">
             <Container>
                 <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
-                    <img
-                        src={appwriteService.getFilePreview(post.featuredImage)}
+                    <Image
+                        src={appwriteService.getFilePreview(post.featuredImage).toString()}
                         alt={post.title}
                         className="rounded-xl"
                     />
 
                     {isAuthor && (
                         <div className="absolute right-6 top-6">
-                            <Link to={`/edit-post/${post.$id}`}>
-                                <Button bgColor="bg-green-500" className="mr-3">
-                                    Edit
-                                </Button>
+                            <Link href={`/edit-post/${post.$id}`}>
+                                <Button className="mr-3 bg-green-500" text={"Edit"} />
                             </Link>
-                            <Button bgColor="bg-red-500" onClick={deletePost}>
-                                Delete
-                            </Button>
+                            <Button text={"Delete"}className='bg-red-500' onClick={deletePost} />
                         </div>
                     )}
                 </div>

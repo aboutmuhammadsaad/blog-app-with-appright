@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import type { RootState } from "./store";
 
-const initialState={
+interface AuthState{
+    status: string,
+    userData: null
+}
+const initialState: AuthState={
     status:"false",
     userData: null
 }
@@ -21,4 +26,5 @@ const authSlice= createSlice({
 })
 
 export const {login, logout}=authSlice.actions;
+export const selectCount = (state: RootState) => state.userData
 export default authSlice.reducer;

@@ -96,11 +96,11 @@ export class Serive{
 
     async getAllPosts(queries=[Query.equal("status","active")]){
         try {
-            return  await this.databases.listDocuments(
+            return await this.databases.listDocuments(
                 conf.appwriteDatabaseID,
                 conf.appwriteCollectionID,
                 queries
-             )
+            )
             
         } catch (error) {
             console.log(error);
